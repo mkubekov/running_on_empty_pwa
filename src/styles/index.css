@@ -1,0 +1,174 @@
+@import 'tailwindcss';
+@import './fonts.css';
+
+/*
+  Тетрадь.
+
+  Практика из книги — это бумажные «Листы Изменений», которые заполняют от
+  руки. Отсюда вся структура: вертикальная линия полей вместо контейнеров,
+  линовка вместо карточек, метаданные слева от поля, как приписки на полях.
+  Ни одного скруглённого бокса: в тетради их нет.
+*/
+
+@theme {
+  /* Антиква — то, что человек пишет: слова эмоций, заметки, цитаты. */
+  --font-book: 'Literata', Georgia, 'Times New Roman', serif;
+  /* Гротеск — то, что напечатано в тетради до тебя: поля, подписи, кнопки. */
+  --font-form: 'Golos Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Страница синит, как бумага под настольной лампой, а не нейтрально-серая. */
+  --color-page: #12141c;
+  --color-field: #191d28;
+  --color-rule: #252b3d;
+  --color-rule-strong: #3a4260;
+
+  --color-ink: #e9e6dd;
+  --color-pencil: #9aa0b6;
+  /* 4.9:1 к странице. Ниже опускать нельзя: приписки на полях — это данные
+     (время, счёт), а не декоративная подпись. */
+  --color-pencil-faint: #7d8398;
+
+  /*
+    Две чернильницы, а не светофор. Книга настаивает: плохих эмоций не
+    бывает — значит ни один из двух цветов не может читаться как «плохой».
+  */
+  --color-violet: #a89cf2;
+  --color-violet-wash: #1e1f33;
+  --color-sepia: #d8a56d;
+  --color-sepia-wash: #241f1a;
+
+  /* Шкала по мажорной терции от 16px. */
+  --text-note: 0.75rem;
+  --text-form: 0.875rem;
+  --text-body: 1rem;
+  --text-word: 1.25rem;
+  --text-head: 1.5625rem;
+  --text-display: 1.953rem;
+
+  /* Ширина поля для приписки — ровно под «20:02» гротеском. */
+  --spacing-margin: 3.25rem;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    background-color: var(--color-page);
+    color: var(--color-ink);
+    font-family: var(--font-form);
+    font-size: var(--text-body);
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    touch-action: manipulation;
+  }
+
+  /* Фокус обязан быть виден — по тетради ходят и с клавиатуры. */
+  :focus-visible {
+    outline: 2px solid var(--color-violet);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-violet-wash);
+  }
+
+  ::placeholder {
+    color: var(--color-pencil-faint);
+  }
+}
+
+@layer components {
+  /*
+    Раздел — обведённая графа бланка с названием, врезанным в рамку.
+    Границы видно сразу: где кончается одно и начинается другое.
+  */
+  .panel {
+    position: relative;
+    border: 1px solid var(--color-rule-strong);
+    padding: 1.375rem 0.875rem 0.875rem;
+  }
+
+  .panel-title {
+    position: absolute;
+    top: 0;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    /* Заливка цветом страницы разрывает рамку под названием. */
+    background-color: var(--color-page);
+    padding: 0 0.5rem;
+    font-family: var(--font-form);
+    font-size: var(--text-form);
+    line-height: 1;
+    color: var(--color-pencil);
+    white-space: nowrap;
+  }
+
+  /* Строка внутри графы: слева узкое поле для приписки, справа содержание. */
+  .line {
+    display: grid;
+    grid-template-columns: var(--spacing-margin) minmax(0, 1fr);
+  }
+
+  .line-note {
+    border-right: 1px solid var(--color-rule);
+    padding: 0.5rem 0.75rem 0.5rem 0;
+    text-align: right;
+    font-family: var(--font-form);
+    font-size: var(--text-note);
+    line-height: 1.5;
+    color: var(--color-pencil-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .line-body {
+    padding: 0.5rem 0 0.5rem 0.875rem;
+    min-width: 0;
+  }
+
+  /* Строка без приписки занимает всю ширину графы. */
+  .line-plain {
+    display: block;
+    padding: 0.5rem 0;
+    min-width: 0;
+  }
+
+  .sheet-ruled > .line:not(:last-child),
+  .sheet-ruled > .line-plain:not(:last-child) {
+    border-bottom: 1px solid var(--color-rule);
+  }
+}
+
+@layer utilities {
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

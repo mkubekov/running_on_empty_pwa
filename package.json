@@ -1,0 +1,44 @@
+{
+  "name": "running-on-empty",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --noEmit",
+    "deploy": "npm run build && wrangler deploy",
+    "worker:dev": "wrangler dev --test-scheduled",
+    "vapid": "web-push generate-vapid-keys",
+    "predev": "node scripts/ensure-emotions.mjs",
+    "prebuild": "node scripts/ensure-emotions.mjs"
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "dexie": "^4.0.11",
+    "dexie-react-hooks": "^1.1.7",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router": "^7.6.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260922.1",
+    "@tailwindcss/vite": "^4.1.7",
+    "@types/node": "^26.6.2",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
+    "@vitejs/plugin-react": "^4.4.1",
+    "tailwindcss": "^4.1.7",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vite-plugin-pwa": "^1.0.0",
+    "web-push": "^3.6.7",
+    "workbox-core": "^7.4.1",
+    "workbox-precaching": "^7.4.1",
+    "workbox-routing": "^7.4.1",
+    "wrangler": "^4.136.2"
+  },
+  "license": "MIT",
+  "description": "Практикум по книге Jonice Webb «Running on Empty»: дневник чувств с напоминаниями"
+}

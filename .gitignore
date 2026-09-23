@@ -1,0 +1,30 @@
+node_modules/
+dist/
+dev-dist/
+.wrangler/
+*.local
+.env
+.env.*
+.app-password
+.cloudflare-token
+!.env.example
+
+# Книга не распространяется вместе с кодом
+*.pdf
+
+# Словарь эмоций — выжимка из приложения к книге, в репозиторий не входит.
+# Собирается локально: python scripts/extract-emotions.py "книга.pdf"
+# Без него сборка возьмёт запасной emotionWords.example.ts.
+src/content/emotionWords.generated.ts
+.playwright-mcp/
+
+# Скиллы ставятся локально через `npx skills add` и в репозиторий не нужны:
+#   npx skills add https://github.com/anthropics/skills --skill frontend-design
+#   npx skills add https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max
+.agents/
+.claude/skills/
+skills-lock.json
+
+# Конфиг IDE — к проекту отношения не имеет
+.idea/
+.vscode/
